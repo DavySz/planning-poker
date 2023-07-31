@@ -5,7 +5,7 @@ import { CreateRoom } from "@presentation/pages/create-room/create-room.containe
 export const appRoutes: TAppRoutes[] = [
   {
     element: <Home />,
-    path: "/home",
+    path: "/",
   },
   {
     element: <Room />,
