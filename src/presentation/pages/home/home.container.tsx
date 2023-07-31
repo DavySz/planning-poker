@@ -6,7 +6,7 @@ export const Home: React.FC = () => {
   const navigate = useNavigate();
 
   const handleStartNewGame = () => {
-    navigate("/room/123");
+    navigate("/create-room");
   };
 
   return (
