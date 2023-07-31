@@ -1,14 +1,26 @@
+import clsx from "clsx";
 import { IButton } from "./button.types";
+import { getButtonVariant } from "./button.variants";
+import { Loading } from "../loading/loading";
 
-export const Button: React.FC<IButton> = ({ children, full, ...rest }) => {
+export const Button: React.FC<IButton> = ({
+  variant = "default",
+  children,
+  full,
+  ...rest
+}) => {
   const fullWidth = full ? "w-full" : "";
 
   return (
     <button
       {...rest}
-      className={`font-semibold text-white px-8 py-4 bg-blue-600 rounded-xl hover:opacity-80 ${fullWidth}`}
+      className={clsx(
+        "flex font-semibold px-8 py-4 rounded-xl hover:opacity-80 items-center justify-center",
+        getButtonVariant(variant),
+        fullWidth
+      )}
     >
-      {children}
+      {variant === "loading" ? <Loading /> : children}
     </button>
   );
 };
