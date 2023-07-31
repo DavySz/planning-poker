@@ -7,7 +7,7 @@ export const Header: React.FC<IHeader> = ({ onClick, label }) => {
       <h1 className="font-mono font-semibold text-4xl text-white">
         Planning Poker
       </h1>
-      <Button onClick={onClick}>{label}</Button>
+      {onClick && <Button onClick={onClick}>{label}</Button>}
     </div>
   );
 };

@@ -1,4 +1,4 @@
 export type IHeader = {
-  onClick: () => void;
-  label: string;
+  onClick?: () => void;
+  label?: string;
 };
