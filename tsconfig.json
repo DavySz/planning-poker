@@ -17,8 +17,11 @@
     "jsx": "react-jsx",
     "baseUrl": "./src",
     "paths": {
-      "@presentation/*": ["presentation/*"]
+      "@presentation/*": ["presentation/*"],
+      "@infra/*": ["infra/*"],
+      "@main/*": ["main/*"],
+      "@data/*": ["data/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "src/main/factories/.ts"]
 }
