@@ -15,7 +15,7 @@ export const Button: React.FC<IButton> = ({
     <button
       {...rest}
       className={clsx(
-        "flex font-semibold px-8 py-4 rounded-xl hover:opacity-80 items-center justify-center",
+        "flex font-semibold p-4 rounded-xl hover:opacity-80 items-center justify-center",
         getButtonVariant(variant),
         fullWidth
       )}
