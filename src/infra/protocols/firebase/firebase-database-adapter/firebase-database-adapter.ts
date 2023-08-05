@@ -7,10 +7,12 @@ import {
   ref,
   onValue,
   getDatabase,
+  DataSnapshot,
+  DatabaseReference,
   get as getFirebase,
   set as setFirebase,
   push as pushFirebase,
-  DataSnapshot,
+  update as updateFirebase,
 } from "firebase/database";
 
 export class FirebaseDatabaseAdapter
@@ -23,12 +25,17 @@ export class FirebaseDatabaseAdapter
     await setFirebase(databaseRef, data);
   }
 
-  async lister(path: string, callback: (data: any) => void): Promise<any> {
+  async lister(
+    path: string,
+    callback: (data: any) => void
+  ): Promise<DatabaseReference> {
     const databaseRef = ref(this.database, path);
     onValue(databaseRef, (snapshot) => {
       const data = snapshot.val();
       callback(data);
     });
+
+    return databaseRef;
   }
 
   async get(path: string): Promise<DataSnapshot> {
@@ -39,6 +46,12 @@ export class FirebaseDatabaseAdapter
   async push(data: any, path: string): Promise<string> {
     const databaseRef = ref(this.database, path);
     const response = await pushFirebase(databaseRef, data);
+
     return response.key!;
+  }
+
+  async update(updates: any, path: string): Promise<void> {
+    const databaseRef = ref(this.database, path);
+    await updateFirebase(databaseRef, updates);
   }
 }
