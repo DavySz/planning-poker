@@ -9,6 +9,8 @@ export interface IRoomUI {
   handleSelectCard: (cardIndex: number) => void;
   handleUpdateCardsVisible: () => void;
   getVoting: () => string[] | null;
+  handleShowNewGame: () => void;
   cardSelected?: number;
+  showNewGame: boolean;
   cards: IRoomModel;
 }

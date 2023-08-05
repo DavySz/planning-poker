@@ -1,16 +1,36 @@
-import { Button, Card } from "@presentation/components";
+import { Button, Card, Timer } from "@presentation/components";
 import { IRoomUI } from "./room.types";
 import { SelectCard } from "@presentation/components/select-card/select-card.container";
 import _ from "lodash";
+import { TButtonVariants } from "@presentation/components/button/button.types";
 
 export const RoomUI: React.FC<IRoomUI> = ({
   cards,
   getVoting,
+  showNewGame,
   cardSelected,
   handleSelectCard,
+  handleShowNewGame,
   handleUpdateSelection,
   handleUpdateCardsVisible,
 }) => {
+  const buttonVariant: TButtonVariants =
+    cards.cardsVisible && !showNewGame ? "disabled" : "default";
+
+  const renderButtonLabel = () => {
+    if (cards.cardsVisible) {
+      return (
+        <Timer
+          initialValue={5}
+          onTimeOver={handleShowNewGame}
+          onFinishMessage="Start new game"
+        />
+      );
+    }
+
+    return "Reveal cards";
+  };
+
   const renderOptions = () => {
     return getVoting()?.map((item, index) => {
       return (
@@ -56,8 +76,13 @@ export const RoomUI: React.FC<IRoomUI> = ({
         <div className="flex gap-4">{renderOptions()}</div>
       </div>
       <div className="flex flex-col items-center justify-center">
-        <Button full onClick={handleUpdateCardsVisible}>
-          Reveal cards
+        <Button
+          disabled={buttonVariant === "disabled"}
+          onClick={handleUpdateCardsVisible}
+          variant={buttonVariant}
+          full
+        >
+          {renderButtonLabel()}
         </Button>
       </div>
     </div>

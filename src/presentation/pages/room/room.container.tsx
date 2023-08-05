@@ -16,6 +16,7 @@ export const Room: React.FC = () => {
 
   const [cards, setCards] = useState<IRoomModel>({} as IRoomModel);
   const [cardSelected, setCardSelected] = useState<number>();
+  const [showNewGame, setShowNewGame] = useState(false);
 
   const database = makeFirebaseDatabaseAdapter();
 
@@ -27,6 +28,10 @@ export const Room: React.FC = () => {
   const handleSelectCard = (cardIndex: number) => {
     setCardSelected(cardIndex);
   };
+
+  function handleShowNewGame() {
+    setShowNewGame(true);
+  }
 
   const handleUpdateSelection = async (optionSelected: string) => {
     const userRef = await database.get(`rooms/${roomId}/users`);
@@ -75,8 +80,10 @@ export const Room: React.FC = () => {
         <RoomUI
           handleUpdateCardsVisible={handleUpdateCardsVisible}
           handleUpdateSelection={handleUpdateSelection}
+          handleShowNewGame={handleShowNewGame}
           handleSelectCard={handleSelectCard}
           cardSelected={cardSelected}
+          showNewGame={showNewGame}
           getVoting={getVoting}
           cards={cards}
         />
