@@ -1,5 +1,7 @@
+import { IUserModel } from "@domain/models/user-model";
+
 export interface IRoomFactory {
   room: string;
-  name: string;
   voting: string;
+  user: IUserModel;
 }
