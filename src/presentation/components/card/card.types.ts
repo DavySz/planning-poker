@@ -1,7 +1,9 @@
-import { ForwardedRef } from "react";
-
-export type TCardRef = ForwardedRef<HTMLDivElement>;
-
 export interface ICardUI {
   visible: boolean;
+  option?: string;
+}
+
+export interface ICard {
+  visible: boolean;
+  option?: string;
 }

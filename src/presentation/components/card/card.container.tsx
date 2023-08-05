@@ -1,18 +1,7 @@
-import { forwardRef, useCallback, useImperativeHandle, useState } from "react";
+import { ICard } from "./card.types";
 import { CardUI } from "./card.ui";
+import _ from "lodash";
 
-export const Card = forwardRef((_, ref: any) => {
-  const [visible, setVisible] = useState(false);
-
-  const changeVisible = useCallback((value: boolean) => {
-    setVisible(value);
-  }, []);
-
-  useImperativeHandle(ref, () => {
-    return {
-      changeVisible,
-    };
-  });
-
-  return <CardUI visible={visible} ref={ref} />;
-});
+export const Card: React.FC<ICard> = ({ visible, option }) => {
+  return <CardUI visible={visible} option={option} />;
+};
