@@ -2,14 +2,17 @@ import { PageTemplate } from "@presentation/components";
 import { useNavigate } from "react-router-dom";
 import { HomeUI } from "./home.ui";
 import { useState } from "react";
-import { makeFirebaseDatabaseAdapter } from "@main/factories";
+import { makeFirebaseDatabaseAdapter, makeUser } from "@main/factories";
 import { TPageState } from "@presentation/common/types/page-state";
+import { useUserContext } from "@presentation/hooks/use-user-context";
 
 export const Home: React.FC = () => {
+  const { handleSetUser } = useUserContext();
   const navigate = useNavigate();
 
   const [pageState, setPageState] = useState<TPageState>("initial");
   const [roomCode, setRoomCode] = useState("");
+  const [userName, setUserName] = useState("");
 
   const database = makeFirebaseDatabaseAdapter();
 
@@ -17,12 +20,17 @@ export const Home: React.FC = () => {
     setRoomCode(code);
   };
 
+  const handleUpdateUserName = (user: string) => {
+    setUserName(user);
+  };
+
   const handleStartNewGame = () => {
     navigate("/create-room");
   };
 
   const handleJoinInRoom = async () => {
-    if (roomCode === "") return;
+    if (roomCode === "" || userName === "") return;
+
     setPageState("loading");
 
     try {
@@ -32,6 +40,12 @@ export const Home: React.FC = () => {
         setPageState("ready");
         return;
       }
+
+      const user = makeUser(userName, false);
+
+      handleSetUser(user);
+
+      await database.push(user, `rooms/${roomCode}/users`);
 
       navigate(`/room/${roomCode}`);
     } catch {
@@ -44,6 +58,7 @@ export const Home: React.FC = () => {
       <HomeUI
         pageState={pageState}
         handleJoinInRoom={handleJoinInRoom}
+        handleUpdateUserName={handleUpdateUserName}
         handleUpdateRoomCode={handleUpdateRoomCode}
       />
     </PageTemplate>

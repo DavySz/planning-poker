@@ -6,6 +6,7 @@ export const HomeUI: React.FC<IHomeUI> = ({
   pageState,
   handleJoinInRoom,
   handleUpdateRoomCode,
+  handleUpdateUserName,
 }) => {
   const buttonState = pageState === "loading" ? "loading" : "default";
 
@@ -22,6 +23,12 @@ export const HomeUI: React.FC<IHomeUI> = ({
           <h1 className="font-mono font-bold text-black text-4xl mb-10">
             and enjoy!
           </h1>
+          <div className="flex flex-col mb-4">
+            <Input
+              onChange={(e) => handleUpdateUserName(e.target.value)}
+              placeholder="Your name"
+            />
+          </div>
           <div className="flex flex-col mb-4">
             <Input
               onChange={(e) => handleUpdateRoomCode(e.target.value)}
