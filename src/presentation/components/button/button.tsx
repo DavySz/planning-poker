@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { IButton } from "./button.types";
-import { getButtonVariant } from "./button.variants";
+import { getButtonTextVariant, getButtonVariant } from "./button.variants";
 import { Loading } from "../loading/loading";
 
 export const Button: React.FC<IButton> = ({
@@ -20,7 +20,11 @@ export const Button: React.FC<IButton> = ({
         fullWidth
       )}
     >
-      {variant === "loading" ? <Loading /> : children}
+      {variant === "loading" ? (
+        <Loading />
+      ) : (
+        <span className={clsx(getButtonTextVariant(variant))}>{children}</span>
+      )}
     </button>
   );
 };
