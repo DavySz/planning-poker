@@ -18,6 +18,7 @@
     "baseUrl": "./src",
     "paths": {
       "@presentation/*": ["presentation/*"],
+      "@domain/*": ["domain/*"],
       "@infra/*": ["infra/*"],
       "@main/*": ["main/*"],
       "@data/*": ["data/*"]
