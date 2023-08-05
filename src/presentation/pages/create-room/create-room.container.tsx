@@ -4,17 +4,21 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   makeRoom,
-  IRoomFactory,
   makeFirebaseDatabaseAdapter,
+  makeUser,
+  IRoomFactory,
 } from "@main/factories";
 import { TPageState } from "@presentation/common/types/page-state";
+import { TRoomForm } from "./create-room.types";
+import { useUserContext } from "@presentation/hooks/use-user-context";
 
 export const CreateRoom = () => {
+  const { handleSetUser } = useUserContext();
   const navigate = useNavigate();
 
   const database = makeFirebaseDatabaseAdapter();
 
-  const [form, setForm] = useState<IRoomFactory>({} as IRoomFactory);
+  const [form, setForm] = useState<TRoomForm>({} as TRoomForm);
   const [pageState, setPageState] = useState<TPageState>("initial");
 
   const updateVoting = (voting: string) => {
@@ -43,7 +47,17 @@ export const CreateRoom = () => {
     const isValid = validateRoom();
 
     if (isValid) {
-      const newRoom = makeRoom(form);
+      const user = makeUser(form.name, true);
+
+      const roomParams: IRoomFactory = {
+        voting: form.voting,
+        room: form.room,
+        user,
+      };
+
+      handleSetUser(user);
+
+      const newRoom = makeRoom(roomParams);
 
       try {
         const key = await database.push(newRoom, "rooms");

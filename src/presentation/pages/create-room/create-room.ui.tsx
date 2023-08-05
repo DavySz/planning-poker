@@ -28,7 +28,7 @@ export const CreateRoomUI: React.FC<ICreateRoomUI> = ({
       </div>
       <div className="mb-8">
         <InputSelector
-          onChange={(e) => updateVoting(e!.value)}
+          onChange={(e) => updateVoting(e!.label)}
           placeholder="Voting system"
           options={options}
         />

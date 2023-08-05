@@ -7,3 +7,9 @@ export interface ICreateRoomUI {
   handleCreateRoom: () => void;
   pageState: TPageState;
 }
+
+export type TRoomForm = {
+  room: string;
+  name: string;
+  voting: string;
+};
