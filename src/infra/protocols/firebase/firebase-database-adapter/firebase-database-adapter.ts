@@ -54,4 +54,26 @@ export class FirebaseDatabaseAdapter
     const databaseRef = ref(this.database, path);
     await updateFirebase(databaseRef, updates);
   }
+
+  async updateFieldForAllChildren(
+    newValue: any,
+    fieldToUpdate: string,
+    collectionPath: string
+  ): Promise<void> {
+    const databaseRef = ref(this.database, collectionPath);
+    const snapshot = await getFirebase(databaseRef);
+
+    if (snapshot.exists()) {
+      const allChildrenData = snapshot.val();
+
+      Object.keys(allChildrenData).forEach(async (childKey) => {
+        const childRef = ref(this.database, `${collectionPath}/${childKey}`);
+        const updates = {
+          [fieldToUpdate]: newValue,
+        };
+
+        await updateFirebase(childRef, updates);
+      });
+    }
+  }
 }
