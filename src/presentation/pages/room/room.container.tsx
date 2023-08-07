@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { PageTemplate } from "@presentation/components";
+import { CopyText, PageTemplate } from "@presentation/components";
 import { RoomUI } from "./room.ui";
 import { useParams } from "react-router-dom";
 import { TRoomParams } from "./room.types";
@@ -70,16 +70,28 @@ export const Room: React.FC = () => {
     await database.update(cardsUpdated, `rooms/${roomId}`);
   };
 
+  const handleCreateNewGame = async () => {
+    setShowNewGame(false);
+    setCardSelected(undefined);
+    await handleUpdateCardsVisible();
+    await database.updateFieldForAllChildren(
+      false,
+      "isSelected",
+      `rooms/${roomId}/users`
+    );
+  };
+
   useEffect(() => {
     database.lister(`rooms/${roomId}`, (cards) => setCards(cards));
   }, [roomId]);
 
   return (
-    <PageTemplate onClick={() => {}} label="Leave room">
+    <PageTemplate customComponent={<CopyText value={roomId} />}>
       {cards.users && (
         <RoomUI
           handleUpdateCardsVisible={handleUpdateCardsVisible}
           handleUpdateSelection={handleUpdateSelection}
+          handleCreateNewGame={handleCreateNewGame}
           handleShowNewGame={handleShowNewGame}
           handleSelectCard={handleSelectCard}
           cardSelected={cardSelected}

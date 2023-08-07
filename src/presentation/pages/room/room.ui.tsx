@@ -11,11 +11,19 @@ export const RoomUI: React.FC<IRoomUI> = ({
   cardSelected,
   handleSelectCard,
   handleShowNewGame,
+  handleCreateNewGame,
   handleUpdateSelection,
   handleUpdateCardsVisible,
 }) => {
   const buttonVariant: TButtonVariants =
     cards.cardsVisible && !showNewGame ? "disabled" : "default";
+
+  const handleSelectOption = (item: string, index: number) => {
+    if (cards.cardsVisible) return;
+
+    handleUpdateSelection(item);
+    handleSelectCard(index);
+  };
 
   const renderButtonLabel = () => {
     if (cards.cardsVisible) {
@@ -34,17 +42,11 @@ export const RoomUI: React.FC<IRoomUI> = ({
   const renderOptions = () => {
     return getVoting()?.map((item, index) => {
       return (
-        <div
-          key={item}
-          className="flex flex-col"
-          onClick={() => handleUpdateSelection(item)}
-        >
-          <SelectCard
-            option={item}
-            onClick={() => handleSelectCard(index)}
-            isSelected={_.isEqual(index, cardSelected)}
-          />
-        </div>
+        <SelectCard
+          option={item}
+          isSelected={_.isEqual(index, cardSelected)}
+          onClick={() => handleSelectOption(item, index)}
+        />
       );
     });
   };
@@ -77,8 +79,8 @@ export const RoomUI: React.FC<IRoomUI> = ({
       </div>
       <div className="flex flex-col items-center justify-center">
         <Button
+          onClick={showNewGame ? handleCreateNewGame : handleUpdateCardsVisible}
           disabled={buttonVariant === "disabled"}
-          onClick={handleUpdateCardsVisible}
           variant={buttonVariant}
           full
         >
