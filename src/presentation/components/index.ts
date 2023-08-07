@@ -6,3 +6,4 @@ export * from "./input/input";
 export * from "./input-selector/input-selector";
 export * from "./loading/loading";
 export * from "./timer/timer.container";
+export * from "./copy-text/copy-text.container";
