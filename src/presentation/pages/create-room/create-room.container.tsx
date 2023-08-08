@@ -71,8 +71,12 @@ export const CreateRoom = () => {
     }
   };
 
+  const handleNavigateToHome = () => {
+    navigate("/");
+  };
+
   return (
-    <PageTemplate>
+    <PageTemplate label="Join in room" onClick={handleNavigateToHome}>
       <CreateRoomUI
         handleCreateRoom={handleCreateRoom}
         updateVoting={updateVoting}
