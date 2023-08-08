@@ -2,19 +2,23 @@ import { PageTemplate } from "@presentation/components";
 import { useNavigate } from "react-router-dom";
 import { HomeUI } from "./home.ui";
 import { useState } from "react";
-import { makeFirebaseDatabaseAdapter, makeUser } from "@main/factories";
 import { TPageState } from "@presentation/common/types/page-state";
 import { useUserContext } from "@presentation/hooks/use-user-context";
+import { IHome } from "./home.types";
+import { ICreateUserDTO } from "@domain/dtos";
+import { IUserModel } from "@domain/models";
 
-export const Home: React.FC = () => {
+export const Home: React.FC<IHome> = ({
+  getRoom,
+  createUser,
+  createUserModel,
+}) => {
   const { handleSetUser } = useUserContext();
   const navigate = useNavigate();
 
   const [pageState, setPageState] = useState<TPageState>("initial");
   const [roomCode, setRoomCode] = useState("");
   const [userName, setUserName] = useState("");
-
-  const database = makeFirebaseDatabaseAdapter();
 
   const handleUpdateRoomCode = (code: string) => {
     setRoomCode(code);
@@ -28,24 +32,43 @@ export const Home: React.FC = () => {
     navigate("/create-room");
   };
 
+  const validateFields = () => {
+    if (roomCode === "" || userName === "") return false;
+    return true;
+  };
+
+  const handleGetRoom = async () => {
+    const roomRef = await getRoom.get({ room: roomCode });
+    return roomRef;
+  };
+
+  const handleCreateUser = async (user: IUserModel) => {
+    await createUser.create({ room: roomCode, user });
+  };
+
   const handleJoinInRoom = async () => {
-    if (roomCode === "" || userName === "") return;
+    const isValid = validateFields();
+    if (!isValid) return;
 
     setPageState("loading");
 
     try {
-      const roomRef = await database.get(`rooms/${roomCode}`);
+      const roomRef = await handleGetRoom();
 
       if (!roomRef.exists()) {
         setPageState("ready");
         return;
       }
 
-      const user = makeUser(userName, false);
+      const userParams: ICreateUserDTO = {
+        name: userName,
+        owner: false,
+      };
 
+      const user = createUserModel(userParams);
+
+      await handleCreateUser(user);
       handleSetUser(user);
-
-      await database.push(user, `rooms/${roomCode}/users`);
 
       navigate(`/room/${roomCode}`);
     } catch {

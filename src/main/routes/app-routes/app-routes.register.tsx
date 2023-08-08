@@ -1,9 +1,9 @@
-import { Home, Room } from "@presentation/pages";
+import { Room } from "@presentation/pages";
 import { TAppRoutes } from "./app-routes.types";
-import { makeCreateRoom } from "@main/factories/pages";
+import { makeCreateRoom, makeHome } from "@main/factories/pages";
 export const appRoutes: TAppRoutes[] = [
   {
-    element: <Home />,
+    element: makeHome({}),
     path: "/",
   },
   {

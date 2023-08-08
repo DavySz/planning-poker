@@ -2,12 +2,16 @@ import { PageTemplate } from "@presentation/components";
 import { CreateRoomUI } from "./create-room.ui";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { makeRoom, makeUser, IRoomFactory } from "@main/factories";
 import { TPageState } from "@presentation/common/types/page-state";
 import { ICreateRoom, TRoomForm } from "./create-room.types";
 import { useUserContext } from "@presentation/hooks/use-user-context";
+import { ICreateRoomDTO, ICreateUserDTO } from "@domain/dtos";
 
-export const CreateRoom = ({ createRoom }: ICreateRoom) => {
+export const CreateRoom = ({
+  createRoom,
+  createRoomModel,
+  createUserModel,
+}: ICreateRoom) => {
   const { handleSetUser } = useUserContext();
   const navigate = useNavigate();
 
@@ -40,17 +44,22 @@ export const CreateRoom = ({ createRoom }: ICreateRoom) => {
     const isValid = validateRoom();
 
     if (isValid) {
-      const user = makeUser(form.name, true);
+      const userParams: ICreateUserDTO = {
+        name: form.name,
+        owner: true,
+      };
 
-      const roomParams: IRoomFactory = {
+      const user = createUserModel(userParams);
+
+      handleSetUser(user);
+
+      const roomParams: ICreateRoomDTO = {
         voting: form.voting,
         room: form.room,
         user,
       };
 
-      handleSetUser(user);
-
-      const newRoom = makeRoom(roomParams);
+      const newRoom = createRoomModel(roomParams);
 
       try {
         const key = await createRoom.create({ room: newRoom });

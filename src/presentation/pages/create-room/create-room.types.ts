@@ -1,8 +1,13 @@
+import { ICreateRoomDTO, ICreateUserDTO } from "@domain/dtos";
+import { IRoomModel, IUserModel } from "@domain/models";
 import { CreateRoom } from "@domain/usecases";
+
 import { TPageState } from "@presentation/common/types/page-state";
 
 export interface ICreateRoom {
   createRoom: CreateRoom;
+  createUserModel: (params: ICreateUserDTO) => IUserModel;
+  createRoomModel: (params: ICreateRoomDTO) => IRoomModel;
 }
 
 export interface ICreateRoomUI {
@@ -14,7 +19,7 @@ export interface ICreateRoomUI {
 }
 
 export type TRoomForm = {
+  voting: string;
   room: string;
   name: string;
-  voting: string;
 };
