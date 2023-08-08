@@ -2,21 +2,14 @@ import { PageTemplate } from "@presentation/components";
 import { CreateRoomUI } from "./create-room.ui";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  makeRoom,
-  makeFirebaseDatabaseAdapter,
-  makeUser,
-  IRoomFactory,
-} from "@main/factories";
+import { makeRoom, makeUser, IRoomFactory } from "@main/factories";
 import { TPageState } from "@presentation/common/types/page-state";
-import { TRoomForm } from "./create-room.types";
+import { ICreateRoom, TRoomForm } from "./create-room.types";
 import { useUserContext } from "@presentation/hooks/use-user-context";
 
-export const CreateRoom = () => {
+export const CreateRoom = ({ createRoom }: ICreateRoom) => {
   const { handleSetUser } = useUserContext();
   const navigate = useNavigate();
-
-  const database = makeFirebaseDatabaseAdapter();
 
   const [form, setForm] = useState<TRoomForm>({} as TRoomForm);
   const [pageState, setPageState] = useState<TPageState>("initial");
@@ -60,7 +53,7 @@ export const CreateRoom = () => {
       const newRoom = makeRoom(roomParams);
 
       try {
-        const { key } = await database.push(newRoom, "rooms");
+        const key = await createRoom.create({ room: newRoom });
 
         setPageState("ready");
 

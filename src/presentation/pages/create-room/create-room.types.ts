@@ -1,4 +1,9 @@
+import { CreateRoom } from "@domain/usecases";
 import { TPageState } from "@presentation/common/types/page-state";
+
+export interface ICreateRoom {
+  createRoom: CreateRoom;
+}
 
 export interface ICreateRoomUI {
   updateVoting: (value: string) => void;
