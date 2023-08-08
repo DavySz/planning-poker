@@ -1,5 +1,5 @@
 import { IUserModel } from "@domain/models";
-import { makeUuidHashAdapter } from "../uuid-hash-adapter-factory/uuid-hash-adapter-factory";
+import { makeUuidHashAdapter } from "@main/factories/adapters";
 
 export const makeUser = (name: string, owner: boolean): IUserModel => {
   const id = makeUuidHashAdapter().get();
