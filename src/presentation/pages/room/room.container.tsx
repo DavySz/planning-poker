@@ -1,20 +1,22 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { CopyText, PageTemplate } from "@presentation/components";
-import { RoomUI } from "./room.ui";
 import { useParams } from "react-router-dom";
-import { TRoomParams } from "./room.types";
 import { useEffect, useState } from "react";
-import { makeFirebaseDatabaseAdapter } from "@main/factories";
-import { IRoomModel } from "domain/models/room-model";
-import { useUserContext } from "@presentation/hooks/use-user-context";
 import _ from "lodash";
-import { IUserModel } from "@domain/models/user-model";
+
+import { useUserContext } from "@presentation/hooks/use-user-context";
+import { CopyText, PageTemplate } from "@presentation/components";
+import { makeFirebaseDatabaseAdapter } from "@main/factories";
+import { IRoomModel, IUserModel } from "@domain/models";
+
+import { TRoomParams } from "./room.types";
+import { RoomUI } from "./room.ui";
 
 export const Room: React.FC = () => {
   const { user } = useUserContext();
   const { id: roomId } = useParams<TRoomParams>() as TRoomParams;
 
   const [cards, setCards] = useState<IRoomModel>({} as IRoomModel);
+  const [roundVotes, setRoundVotes] = useState<string[]>([]);
   const [cardSelected, setCardSelected] = useState<number>();
   const [showNewGame, setShowNewGame] = useState(false);
 
@@ -79,6 +81,19 @@ export const Room: React.FC = () => {
       "isSelected",
       `rooms/${roomId}/users`
     );
+  };
+
+  const onGetAllRoundVotes = async () => {
+    const userRef = await database.get(`rooms/${roomId}/users`);
+
+    Object.entries(userRef.val()).forEach(([key, value]) => {
+      const userValue = value as IUserModel;
+      const optionSelected = userValue.option.optionSelected;
+
+      if (_.isString(optionSelected)) {
+        setRoundVotes((previous) => [...previous, optionSelected]);
+      }
+    });
   };
 
   useEffect(() => {
