@@ -7,10 +7,12 @@ export const Header: React.FC<IHeader> = ({
   customComponent,
 }) => {
   return (
-    <div className="flex justify-between items-center p-8 bg-blue-500">
-      <h1 className="font-mono font-semibold text-4xl text-white">
-        Planning Poker
-      </h1>
+    <div className="flex justify-between items-center p-8">
+      <div className="flex items-center">
+        <h1 className="font-mono font-semibold text-4xl text-blue-600 ml-4">
+          Planning Poker
+        </h1>
+      </div>
       {customComponent && customComponent}
       {onClick && <Button onClick={onClick}>{label}</Button>}
     </div>

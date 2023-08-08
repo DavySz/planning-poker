@@ -11,9 +11,9 @@ export const HomeUI: React.FC<IHomeUI> = ({
   const buttonState = pageState === "loading" ? "loading" : "default";
 
   return (
-    <div className="flex flex-col align-middle justify-center">
-      <div className="flex align-middle justify-evenly">
-        <div className="flex flex-col self-center">
+    <div className="flex flex-col absolute top-[50%] left-[50%] [transform:translate(-50%,-50%)]">
+      <div className="flex">
+        <div className="flex flex-col">
           <h1 className="font-mono font-bold text-black text-4xl mb-2">
             Planning free solution
           </h1>
@@ -39,7 +39,7 @@ export const HomeUI: React.FC<IHomeUI> = ({
             Entrar
           </Button>
         </div>
-        <div className="bg-white">
+        <div className="flex flex-col">
           <img src={TeamSvg} alt="team working" className="w-96 h-96" />
         </div>
         <div />

@@ -13,7 +13,12 @@ export const CreateRoomUI: React.FC<ICreateRoomUI> = ({
   const isDisabled = pageState === "loading" || pageState === "error";
 
   return (
-    <div className="absolute top-[50%] left-[50%] [transform:translate(-50%,-50%)]">
+    <div className="flex flex-col absolute top-[50%] left-[50%] [transform:translate(-50%,-50%)]">
+      <h1 className="text-center mb-8 text-lg font-medium">
+        Create a new room
+        <br />
+        and invite your team!
+      </h1>
       <div className="mb-4">
         <Input
           onChange={(e) => updateRoom(e.target.value)}
