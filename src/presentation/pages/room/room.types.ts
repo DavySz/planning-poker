@@ -1,4 +1,4 @@
-import { IRoomModel } from "domain/models/room-model";
+import { IRoomModel } from "@domain/models";
 
 export type TRoomParams = {
   id: string;

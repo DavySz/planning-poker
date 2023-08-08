@@ -16,7 +16,7 @@ export const Room: React.FC = () => {
   const { id: roomId } = useParams<TRoomParams>() as TRoomParams;
 
   const [cards, setCards] = useState<IRoomModel>({} as IRoomModel);
-  const [roundVotes, setRoundVotes] = useState<string[]>([]);
+  // const [roundVotes, setRoundVotes] = useState<string[]>([]);
   const [cardSelected, setCardSelected] = useState<number>();
   const [showNewGame, setShowNewGame] = useState(false);
 
@@ -83,18 +83,18 @@ export const Room: React.FC = () => {
     );
   };
 
-  const onGetAllRoundVotes = async () => {
-    const userRef = await database.get(`rooms/${roomId}/users`);
+  // const onGetAllRoundVotes = async () => {
+  //   const userRef = await database.get(`rooms/${roomId}/users`);
 
-    Object.entries(userRef.val()).forEach(([key, value]) => {
-      const userValue = value as IUserModel;
-      const optionSelected = userValue.option.optionSelected;
+  //   Object.entries(userRef.val()).forEach(([key, value]) => {
+  //     const userValue = value as IUserModel;
+  //     const optionSelected = userValue.option.optionSelected;
 
-      if (_.isString(optionSelected)) {
-        setRoundVotes((previous) => [...previous, optionSelected]);
-      }
-    });
-  };
+  //     if (_.isString(optionSelected)) {
+  //       setRoundVotes((previous) => [...previous, optionSelected]);
+  //     }
+  //   });
+  // };
 
   useEffect(() => {
     database.lister(`rooms/${roomId}`, (cards) => setCards(cards));

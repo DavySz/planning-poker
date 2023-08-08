@@ -60,7 +60,7 @@ export const CreateRoom = () => {
       const newRoom = makeRoom(roomParams);
 
       try {
-        const key = await database.push(newRoom, "rooms");
+        const { key } = await database.push(newRoom, "rooms");
 
         setPageState("ready");
 

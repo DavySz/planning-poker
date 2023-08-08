@@ -1,4 +1,4 @@
-import { IUserModel } from "domain/models/user-model";
+import { IUserModel } from "@domain/models";
 import { ReactNode } from "react";
 
 export interface IUserContextProvider {
