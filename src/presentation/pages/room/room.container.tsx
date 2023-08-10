@@ -8,10 +8,11 @@ import { CopyText, PageTemplate } from "@presentation/components";
 import { makeFirebaseDatabaseAdapter } from "@main/factories";
 import { IRoomModel, IUserModel } from "@domain/models";
 
-import { TRoomParams } from "./room.types";
+import { IRoom, TRoomParams } from "./room.types";
 import { RoomUI } from "./room.ui";
+import { IUpdateUserDTO } from "@domain/dtos";
 
-export const Room: React.FC = () => {
+export const Room: React.FC<IRoom> = ({ updateUser }) => {
   const { user } = useUserContext();
   const { id: roomId } = useParams<TRoomParams>() as TRoomParams;
 
@@ -38,6 +39,8 @@ export const Room: React.FC = () => {
   const handleUpdateSelection = async (optionSelected: string) => {
     const userRef = await database.get(`rooms/${roomId}/users`);
 
+    console.log(userRef.val());
+
     let userSelectKey = "";
     let userSelectValue: IUserModel = {} as IUserModel;
 
@@ -49,7 +52,7 @@ export const Room: React.FC = () => {
       }
     });
 
-    const cardSelectedUpdate: IUserModel = {
+    const userUpdated: IUserModel = {
       ...userSelectValue,
       option: {
         isSelected: true,
@@ -57,10 +60,13 @@ export const Room: React.FC = () => {
       },
     };
 
-    await database.update(
-      cardSelectedUpdate,
-      `rooms/${roomId}/users/${userSelectKey}`
-    );
+    const updateUserParams: IUpdateUserDTO = {
+      userKey: userSelectKey,
+      user: userUpdated,
+      room: roomId,
+    };
+
+    await updateUser.update(updateUserParams);
   };
 
   const handleUpdateCardsVisible = async () => {

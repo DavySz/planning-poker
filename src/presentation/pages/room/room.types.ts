@@ -1,8 +1,13 @@
 import { IRoomModel } from "@domain/models";
+import { UpdateUser } from "@domain/usecases";
 
 export type TRoomParams = {
   id: string;
 };
+
+export interface IRoom {
+  updateUser: UpdateUser;
+}
 
 export interface IRoomUI {
   handleUpdateSelection: (optionSelected: string) => void;
