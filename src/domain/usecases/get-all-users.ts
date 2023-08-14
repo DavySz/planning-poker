@@ -1,5 +1,9 @@
-export namespace GetAllUser {}
+import { IUserModel } from "@domain/models";
 
-export interface GetAllUser {
-  get: () => Promise<void>;
+export namespace GetAllUsersSpace {
+  export type Model = IUserModel[];
+}
+
+export interface GetAllUsers {
+  get: (room: string) => Promise<GetAllUsersSpace.Model>;
 }
