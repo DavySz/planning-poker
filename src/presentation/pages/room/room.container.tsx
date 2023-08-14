@@ -5,27 +5,30 @@ import _ from "lodash";
 
 import { useUserContext } from "@presentation/hooks/use-user-context";
 import { CopyText, PageTemplate } from "@presentation/components";
-import { makeFirebaseDatabaseAdapter } from "@main/factories";
 import { IRoomModel, IUserModel } from "@domain/models";
 
 import { IRoom, TRoomParams } from "./room.types";
 import { RoomUI } from "./room.ui";
 import { IUpdateUserDTO } from "@domain/dtos";
 
-export const Room: React.FC<IRoom> = ({ updateUser }) => {
+export const Room: React.FC<IRoom> = ({
+  updateUser,
+  updateRoom,
+  getAllUsers,
+  getRoomEvents,
+  updateAllUsers,
+}) => {
   const { user } = useUserContext();
   const { id: roomId } = useParams<TRoomParams>() as TRoomParams;
 
-  const [cards, setCards] = useState<IRoomModel>({} as IRoomModel);
+  const [room, setRoom] = useState<IRoomModel>({} as IRoomModel);
   // const [roundVotes, setRoundVotes] = useState<string[]>([]);
   const [cardSelected, setCardSelected] = useState<number>();
   const [showNewGame, setShowNewGame] = useState(false);
 
-  const database = makeFirebaseDatabaseAdapter();
-
   const getVoting = (): RegExpMatchArray | null => {
-    if (!cards.voting) return null;
-    return cards.voting.match(/\b[PP|P|M|G|GG]+\b/g) as RegExpMatchArray;
+    if (!room.voting) return null;
+    return room.voting.match(/\b[PP|P|M|G|GG]+\b/g) as RegExpMatchArray;
   };
 
   const handleSelectCard = (cardIndex: number) => {
@@ -37,17 +40,14 @@ export const Room: React.FC<IRoom> = ({ updateUser }) => {
   }
 
   const handleUpdateSelection = async (optionSelected: string) => {
-    const userRef = await database.get(`rooms/${roomId}/users`);
-
-    console.log(userRef.val());
-
     let userSelectKey = "";
     let userSelectValue: IUserModel = {} as IUserModel;
 
-    Object.entries(userRef.val()).forEach(([key, value]) => {
-      const userValue = value as IUserModel;
-      if (_.isEqual(userValue.id, user.id)) {
-        userSelectValue = userValue;
+    const response = await getAllUsers.get(roomId);
+
+    Object.entries(response).forEach(([key, value]) => {
+      if (_.isEqual(value.id, user.id)) {
+        userSelectValue = value;
         userSelectKey = key;
       }
     });
@@ -70,23 +70,24 @@ export const Room: React.FC<IRoom> = ({ updateUser }) => {
   };
 
   const handleUpdateCardsVisible = async () => {
-    const cardsUpdated: IRoomModel = {
-      ...cards,
-      cardsVisible: !cards.cardsVisible,
+    const roomUpdated: IRoomModel = {
+      ...room,
+      cardsVisible: !room.cardsVisible,
     };
 
-    await database.update(cardsUpdated, `rooms/${roomId}`);
+    await updateRoom.update({ room: roomUpdated, roomId });
   };
 
   const handleCreateNewGame = async () => {
     setShowNewGame(false);
     setCardSelected(undefined);
     await handleUpdateCardsVisible();
-    await database.updateFieldForAllChildren(
-      false,
-      "isSelected",
-      `rooms/${roomId}/users`
-    );
+
+    await updateAllUsers.update({
+      field: "isSelected",
+      value: false,
+      room: roomId,
+    });
   };
 
   // const onGetAllRoundVotes = async () => {
@@ -102,13 +103,20 @@ export const Room: React.FC<IRoom> = ({ updateUser }) => {
   //   });
   // };
 
+  const addRemoteRoomListener = async () => {
+    getRoomEvents.get({
+      callback: (event) => setRoom(event),
+      room: roomId,
+    });
+  };
+
   useEffect(() => {
-    database.lister(`rooms/${roomId}`, (cards) => setCards(cards));
+    addRemoteRoomListener();
   }, [roomId]);
 
   return (
     <PageTemplate customComponent={<CopyText value={roomId} />}>
-      {cards.users && (
+      {room.users && (
         <RoomUI
           handleUpdateCardsVisible={handleUpdateCardsVisible}
           handleUpdateSelection={handleUpdateSelection}
@@ -118,7 +126,7 @@ export const Room: React.FC<IRoom> = ({ updateUser }) => {
           cardSelected={cardSelected}
           showNewGame={showNewGame}
           getVoting={getVoting}
-          cards={cards}
+          cards={room}
         />
       )}
     </PageTemplate>

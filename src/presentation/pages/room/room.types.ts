@@ -1,5 +1,11 @@
 import { IRoomModel } from "@domain/models";
-import { UpdateUser } from "@domain/usecases";
+import {
+  GetAllUsers,
+  GetRoomEvents,
+  UpdateAllUsers,
+  UpdateRoom,
+  UpdateUser,
+} from "@domain/usecases";
 
 export type TRoomParams = {
   id: string;
@@ -7,6 +13,10 @@ export type TRoomParams = {
 
 export interface IRoom {
   updateUser: UpdateUser;
+  updateRoom: UpdateRoom;
+  getAllUsers: GetAllUsers;
+  getRoomEvents: GetRoomEvents;
+  updateAllUsers: UpdateAllUsers;
 }
 
 export interface IRoomUI {
