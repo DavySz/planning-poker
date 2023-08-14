@@ -1,6 +1,6 @@
 import { UpdateUser } from "@domain/usecases";
 import { makeFirebaseDatabaseAdapter } from "../adapters";
-import { RemoteUpdateUser } from "@data/usecases/update-user";
+import { RemoteUpdateUser } from "@data/usecases";
 
 export const makeUpdateUser = (): UpdateUser => {
   const database = makeFirebaseDatabaseAdapter();
