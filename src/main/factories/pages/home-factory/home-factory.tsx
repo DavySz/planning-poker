@@ -5,7 +5,7 @@ import {
 } from "@main/factories/usecases";
 import { Home } from "@presentation/pages";
 
-export const makeHome: React.FC = () => {
+export const makeHomePage: React.FC = () => {
   return (
     <Home
       createUser={makeRemoteCreateUser()}

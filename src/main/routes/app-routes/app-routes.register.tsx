@@ -1,9 +1,13 @@
-import { makeCreateRoom, makeHome, makeRoomPage } from "@main/factories/pages";
+import {
+  makeHomePage,
+  makeRoomPage,
+  makeCreateRoomPage,
+} from "@main/factories/pages";
 import { TAppRoutes } from "./app-routes.types";
 
 export const appRoutes: TAppRoutes[] = [
   {
-    element: makeHome({}),
+    element: makeHomePage({}),
     path: "/",
   },
   {
@@ -11,7 +15,7 @@ export const appRoutes: TAppRoutes[] = [
     path: "/room/:id",
   },
   {
-    element: makeCreateRoom({}),
+    element: makeCreateRoomPage({}),
     path: "/create-room",
   },
 ];
