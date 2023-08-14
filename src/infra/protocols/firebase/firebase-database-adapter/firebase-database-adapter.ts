@@ -1,4 +1,4 @@
-import { IGetDatabase, ISetDatabase } from "@data/protocols/database";
+import { IDatabase } from "@data/protocols/database";
 import {
   ref,
   onValue,
@@ -11,7 +11,7 @@ import {
   update as updateFirebase,
 } from "firebase/database";
 
-export class FirebaseDatabaseAdapter implements ISetDatabase, IGetDatabase {
+export class FirebaseDatabaseAdapter implements IDatabase {
   private readonly database = getDatabase();
 
   async push(data: any, path: string): Promise<DatabaseReference> {
@@ -40,7 +40,7 @@ export class FirebaseDatabaseAdapter implements ISetDatabase, IGetDatabase {
     await updateFirebase(databaseRef, updates);
   }
 
-  async lister(
+  async listener(
     path: string,
     callback: (data: any) => void
   ): Promise<DatabaseReference> {
