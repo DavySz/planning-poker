@@ -9,3 +9,5 @@ export * from "./update-room";
 
 export * from "./update-all-users";
 export * from "./get-room-events";
+
+export * from "./get-round-votes";

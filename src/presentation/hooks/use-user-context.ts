@@ -1,4 +1,4 @@
-import { UserContext } from "@presentation/contexts/user-context/user-context";
+import { UserContext } from "@presentation/contexts";
 import { useContext } from "react";
 
 export const useUserContext = () => {

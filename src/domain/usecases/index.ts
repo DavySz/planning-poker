@@ -8,3 +8,4 @@ export * from "./create-user";
 export * from "./update-user";
 
 export * from "./get-room-events";
+export * from "./get-round-votes";
