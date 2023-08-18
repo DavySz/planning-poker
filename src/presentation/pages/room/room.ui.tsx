@@ -7,9 +7,11 @@ import { TButtonVariants } from "@presentation/components/button/button.types";
 export const RoomUI: React.FC<IRoomUI> = ({
   cards,
   getVoting,
+  roundVotes,
   showNewGame,
   cardSelected,
   handleSelectCard,
+  getAllRoundVotes,
   handleShowNewGame,
   handleCreateNewGame,
   handleUpdateSelection,
@@ -72,6 +74,11 @@ export const RoomUI: React.FC<IRoomUI> = ({
 
   return (
     <div className="flex flex-col absolute top-[50%] left-[50%] [transform:translate(-50%,-50%)]">
+      {showNewGame && (
+        <div>
+          <span>{JSON.stringify(roundVotes)}</span>
+        </div>
+      )}
       <div className="flex gap-4 flex-wrap mb-12">{renderUsers()}</div>
       <div className="flex flex-col items-center justify-center mb-12">
         <span className="mb-8">Choose your card 👇</span>

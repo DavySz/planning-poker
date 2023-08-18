@@ -5,7 +5,7 @@ import _ from "lodash";
 
 import { useUserContext } from "@presentation/hooks/use-user-context";
 import { CopyText, PageTemplate } from "@presentation/components";
-import { IRoomModel, IUserModel } from "@domain/models";
+import { IGetRoundVotes, IRoomModel, IUserModel } from "@domain/models";
 
 import { IRoom, TRoomParams } from "./room.types";
 import { RoomUI } from "./room.ui";
@@ -15,14 +15,15 @@ export const Room: React.FC<IRoom> = ({
   updateUser,
   updateRoom,
   getAllUsers,
+  getRoundVotes,
   getRoomEvents,
   updateAllUsers,
 }) => {
   const { user } = useUserContext();
   const { id: roomId } = useParams<TRoomParams>() as TRoomParams;
 
+  const [roundVotes, setRoundVotes] = useState<IGetRoundVotes[]>([]);
   const [room, setRoom] = useState<IRoomModel>({} as IRoomModel);
-  // const [roundVotes, setRoundVotes] = useState<string[]>([]);
   const [cardSelected, setCardSelected] = useState<number>();
   const [showNewGame, setShowNewGame] = useState(false);
 
@@ -35,7 +36,13 @@ export const Room: React.FC<IRoom> = ({
     setCardSelected(cardIndex);
   };
 
+  const getAllRoundVotes = async () => {
+    const votes = await getRoundVotes.get(roomId);
+    setRoundVotes(votes);
+  };
+
   function handleShowNewGame() {
+    getAllRoundVotes();
     setShowNewGame(true);
   }
 
@@ -90,19 +97,6 @@ export const Room: React.FC<IRoom> = ({
     });
   };
 
-  // const onGetAllRoundVotes = async () => {
-  //   const userRef = await database.get(`rooms/${roomId}/users`);
-
-  //   Object.entries(userRef.val()).forEach(([key, value]) => {
-  //     const userValue = value as IUserModel;
-  //     const optionSelected = userValue.option.optionSelected;
-
-  //     if (_.isString(optionSelected)) {
-  //       setRoundVotes((previous) => [...previous, optionSelected]);
-  //     }
-  //   });
-  // };
-
   const addRemoteRoomListener = async () => {
     getRoomEvents.get({
       callback: (event) => setRoom(event),
@@ -123,8 +117,10 @@ export const Room: React.FC<IRoom> = ({
           handleCreateNewGame={handleCreateNewGame}
           handleShowNewGame={handleShowNewGame}
           handleSelectCard={handleSelectCard}
+          getAllRoundVotes={getAllRoundVotes}
           cardSelected={cardSelected}
           showNewGame={showNewGame}
+          roundVotes={roundVotes}
           getVoting={getVoting}
           cards={room}
         />

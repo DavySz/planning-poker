@@ -1,7 +1,8 @@
-import { IRoomModel } from "@domain/models";
+import { IGetRoundVotes, IRoomModel } from "@domain/models";
 import {
   GetAllUsers,
   GetRoomEvents,
+  GetRoundVotes,
   UpdateAllUsers,
   UpdateRoom,
   UpdateUser,
@@ -15,6 +16,7 @@ export interface IRoom {
   updateUser: UpdateUser;
   updateRoom: UpdateRoom;
   getAllUsers: GetAllUsers;
+  getRoundVotes: GetRoundVotes;
   getRoomEvents: GetRoomEvents;
   updateAllUsers: UpdateAllUsers;
 }
@@ -26,6 +28,8 @@ export interface IRoomUI {
   getVoting: () => string[] | null;
   handleCreateNewGame: () => void;
   handleShowNewGame: () => void;
+  getAllRoundVotes: () => void;
+  roundVotes: IGetRoundVotes[];
   cardSelected?: number;
   showNewGame: boolean;
   cards: IRoomModel;
