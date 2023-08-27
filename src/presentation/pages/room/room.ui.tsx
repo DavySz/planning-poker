@@ -1,52 +1,38 @@
-import { Button, Card, Timer } from "@presentation/components";
+import { Button, Card } from "@presentation/components";
 import { IRoomUI } from "./room.types";
 import { SelectCard } from "@presentation/components/select-card/select-card.container";
-import _ from "lodash";
-import { TButtonVariants } from "@presentation/components/button/button.types";
+import { isEqual } from "lodash";
 
 export const RoomUI: React.FC<IRoomUI> = ({
+  user,
   cards,
-  getVoting,
   roundVotes,
-  showNewGame,
-  cardSelected,
-  handleSelectCard,
-  getAllRoundVotes,
-  handleShowNewGame,
+  getVotingSystem,
+  cardIndexSelected,
   handleCreateNewGame,
   handleUpdateSelection,
   handleUpdateCardsVisible,
 }) => {
-  const buttonVariant: TButtonVariants =
-    cards.cardsVisible && !showNewGame ? "disabled" : "default";
+  const handleRevealCards = () => {
+    handleUpdateCardsVisible();
+  };
 
   const handleSelectOption = (item: string, index: number) => {
     if (cards.cardsVisible) return;
 
-    handleUpdateSelection(item);
-    handleSelectCard(index);
-  };
-
-  const renderButtonLabel = () => {
-    if (cards.cardsVisible) {
-      return (
-        <Timer
-          initialValue={5}
-          onTimeOver={handleShowNewGame}
-          onFinishMessage="Start new game"
-        />
-      );
-    }
-
-    return "Reveal cards";
+    handleUpdateSelection(item, index);
   };
 
   const renderOptions = () => {
-    return getVoting()?.map((item, index) => {
+    return getVotingSystem().map((item, index) => {
+      const isSelected =
+        user.option.isSelected && isEqual(index, cardIndexSelected);
+
       return (
         <SelectCard
+          key={index}
           option={item}
-          isSelected={_.isEqual(index, cardSelected)}
+          isSelected={isSelected}
           onClick={() => handleSelectOption(item, index)}
         />
       );
@@ -74,7 +60,7 @@ export const RoomUI: React.FC<IRoomUI> = ({
 
   return (
     <div className="flex flex-col absolute top-[50%] left-[50%] [transform:translate(-50%,-50%)]">
-      {showNewGame && (
+      {cards.cardsVisible && (
         <div>
           <span>{JSON.stringify(roundVotes)}</span>
         </div>
@@ -85,14 +71,15 @@ export const RoomUI: React.FC<IRoomUI> = ({
         <div className="flex gap-4">{renderOptions()}</div>
       </div>
       <div className="flex flex-col items-center justify-center">
-        <Button
-          onClick={showNewGame ? handleCreateNewGame : handleUpdateCardsVisible}
-          disabled={buttonVariant === "disabled"}
-          variant={buttonVariant}
-          full
-        >
-          {renderButtonLabel()}
-        </Button>
+        {cards.cardsVisible ? (
+          <Button full onClick={handleCreateNewGame}>
+            Start again!
+          </Button>
+        ) : (
+          <Button full onClick={handleRevealCards}>
+            Reveal cards!
+          </Button>
+        )}
       </div>
     </div>
   );

@@ -15,38 +15,34 @@ export const Room: React.FC<IRoom> = ({
   updateUser,
   updateRoom,
   getAllUsers,
+  startNewGame,
   getRoundVotes,
   getRoomEvents,
-  updateAllUsers,
 }) => {
-  const { user } = useUserContext();
+  const { user, handleSetUser } = useUserContext();
   const { id: roomId } = useParams<TRoomParams>() as TRoomParams;
 
   const [roundVotes, setRoundVotes] = useState<IGetRoundVotes[]>([]);
   const [room, setRoom] = useState<IRoomModel>({} as IRoomModel);
-  const [cardSelected, setCardSelected] = useState<number>();
-  const [showNewGame, setShowNewGame] = useState(false);
+  const [isCreatingGame, setIsCreatingGame] = useState(false);
 
-  const getVoting = (): RegExpMatchArray | null => {
-    if (!room.voting) return null;
+  const [cardIndexSelected, setCardIndexSelected] = useState<number>();
+
+  const getVotingSystem = (): RegExpMatchArray => {
     return room.voting.match(/\b[PP|P|M|G|GG]+\b/g) as RegExpMatchArray;
   };
 
-  const handleSelectCard = (cardIndex: number) => {
-    setCardSelected(cardIndex);
+  const getAllRoundVotes = async (event: IRoomModel) => {
+    if (event.cardsVisible) {
+      const votes = await getRoundVotes.get(roomId);
+      setRoundVotes(votes);
+    }
   };
 
-  const getAllRoundVotes = async () => {
-    const votes = await getRoundVotes.get(roomId);
-    setRoundVotes(votes);
-  };
-
-  function handleShowNewGame() {
-    getAllRoundVotes();
-    setShowNewGame(true);
-  }
-
-  const handleUpdateSelection = async (optionSelected: string) => {
+  const handleUpdateSelection = async (
+    optionSelected: string,
+    index: number
+  ) => {
     let userSelectKey = "";
     let userSelectValue: IUserModel = {} as IUserModel;
 
@@ -74,6 +70,8 @@ export const Room: React.FC<IRoom> = ({
     };
 
     await updateUser.update(updateUserParams);
+
+    setCardIndexSelected(index);
   };
 
   const handleUpdateCardsVisible = async () => {
@@ -86,27 +84,43 @@ export const Room: React.FC<IRoom> = ({
   };
 
   const handleCreateNewGame = async () => {
-    setShowNewGame(false);
-    setCardSelected(undefined);
-    await handleUpdateCardsVisible();
+    setIsCreatingGame(true);
+    setCardIndexSelected(undefined);
 
-    await updateAllUsers.update({
-      field: "isSelected",
-      value: false,
-      room: roomId,
+    await startNewGame.start({
+      roomId: roomId,
+      room,
     });
+
+    setIsCreatingGame(false);
+  };
+
+  const updateLocalUser = ({ users }: IRoomModel) => {
+    const updatedUser = Object.entries(users).find(([key, value]) =>
+      _.isEqual(value.id, user.id)
+    ) as [string, IUserModel];
+
+    handleSetUser(updatedUser[1]);
+  };
+
+  const updateListenerDependencies = (event: IRoomModel) => {
+    setRoom(event);
+    updateLocalUser(event);
+    getAllRoundVotes(event);
   };
 
   const addRemoteRoomListener = async () => {
     getRoomEvents.get({
-      callback: (event) => setRoom(event),
+      callback: (event) => updateListenerDependencies(event),
       room: roomId,
     });
   };
 
   useEffect(() => {
-    addRemoteRoomListener();
-  }, [roomId]);
+    if (!isCreatingGame) {
+      addRemoteRoomListener();
+    }
+  }, [roomId, isCreatingGame]);
 
   return (
     <PageTemplate customComponent={<CopyText value={roomId} />}>
@@ -115,14 +129,11 @@ export const Room: React.FC<IRoom> = ({
           handleUpdateCardsVisible={handleUpdateCardsVisible}
           handleUpdateSelection={handleUpdateSelection}
           handleCreateNewGame={handleCreateNewGame}
-          handleShowNewGame={handleShowNewGame}
-          handleSelectCard={handleSelectCard}
-          getAllRoundVotes={getAllRoundVotes}
-          cardSelected={cardSelected}
-          showNewGame={showNewGame}
+          cardIndexSelected={cardIndexSelected}
+          getVotingSystem={getVotingSystem}
           roundVotes={roundVotes}
-          getVoting={getVoting}
           cards={room}
+          user={user}
         />
       )}
     </PageTemplate>

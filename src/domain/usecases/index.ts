@@ -2,7 +2,7 @@ export * from "./create-room";
 export * from "./update-room";
 export * from "./get-room";
 
-export * from "./update-all-users";
+export * from "./start-new-game";
 export * from "./get-all-users";
 export * from "./create-user";
 export * from "./update-user";

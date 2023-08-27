@@ -1,4 +1,4 @@
-export * from "./update-all-users-factory";
+export * from "./start-new-game-factory";
 export * from "./get-room-events-factory";
 export * from "./get-round-votes-factory";
 export * from "./get-all-users-factory";
