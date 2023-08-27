@@ -53,26 +53,4 @@ export class FirebaseDatabaseAdapter implements IDatabase {
 
     return snapshot;
   }
-
-  async updateFieldForAllChildren(
-    value: any,
-    fieldToUpdate: string,
-    collectionPath: string
-  ): Promise<void> {
-    const databaseRef = ref(this.database, collectionPath);
-    const snapshot = await getFirebase(databaseRef);
-
-    if (snapshot.exists()) {
-      const allChildrenData = snapshot.val();
-
-      Object.keys(allChildrenData).forEach(async (childKey) => {
-        const childRef = ref(this.database, `${collectionPath}/${childKey}`);
-        const updates = {
-          [fieldToUpdate]: value,
-        };
-
-        await updateFirebase(childRef, updates);
-      });
-    }
-  }
 }
