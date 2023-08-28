@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import _ from "lodash";
 
-import { useUserContext } from "@presentation/hooks/use-user-context";
+import { useUserContext } from "@presentation/hooks";
 import { CopyText, PageTemplate } from "@presentation/components";
 import { IGetRoundVotes, IRoomModel, IUserModel } from "@domain/models";
 
@@ -132,7 +132,7 @@ export const Room: React.FC<IRoom> = ({
           cardIndexSelected={cardIndexSelected}
           getVotingSystem={getVotingSystem}
           roundVotes={roundVotes}
-          cards={room}
+          room={room}
           user={user}
         />
       )}

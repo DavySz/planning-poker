@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { HomeUI } from "./home.ui";
 import { useState } from "react";
 import { TPageState } from "@presentation/common/types/page-state";
-import { useUserContext } from "@presentation/hooks/use-user-context";
+import { useUserContext } from "@presentation/hooks";
 import { IHome } from "./home.types";
 import { ICreateUserDTO } from "@domain/dtos";
 import { IUserModel } from "@domain/models";

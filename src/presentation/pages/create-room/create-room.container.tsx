@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { TPageState } from "@presentation/common/types/page-state";
 import { ICreateRoom, TRoomForm } from "./create-room.types";
-import { useUserContext } from "@presentation/hooks/use-user-context";
+import { useUserContext } from "@presentation/hooks";
 import { ICreateRoomDTO, ICreateUserDTO } from "@domain/dtos";
 
 export const CreateRoom = ({
