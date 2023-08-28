@@ -1,5 +1,16 @@
 # PLANNING POKER ⚔️
 
+<img src=".github/images/home.png" alt="home"/> <br/>
+
+<details>
+  <summary>More images</summary><br/>
+     
+  <img src=".github/images/create-room.png" alt="create room page"/><br/>
+  <img src=".github/images/room.png" alt="room"/><br/>
+    <img src=".github/images/selected.png" alt="selected cards"/><br/>
+    <img src=".github/images/votes.png" alt="votes"/><br/>
+</details>
+
 
 <details>
   <summary>What is Planning Poker?</summary>
