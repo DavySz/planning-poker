@@ -1,46 +1,76 @@
-# Getting Started with Create React App
+# PLANNING POKER ⚔️
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+<details>
+  <summary>What is Planning Poker?</summary>
+  <br/>
+  Planning poker, also called Scrum poker, is a gamified technique for estimating tasks mostly used by Agile development teams.
 
-In the project directory, you can run:
+The game consists in looping through these steps for each task that the team wants to estimate:
 
-### `npm start`
+## Step 1: Understanding Your Cards
+[0; 1; 2; 3; 5; 8; 13; 21; 34; 55; 89; 100]
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Each player is given the same number of cards with the same values. The objective is to vote for how much effort a particular project development task will require.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Step 2: Story Reading
+The Scrum Master (Project Manager) will present a story to the group.
 
-### `npm test`
+## Step 3: Development Discussion
+This is where each team member will give more details on the important aspects about the task.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Step 4: Estimate and Share
+All agile development team members will then choose a card from their deck to represent their estimate of story points. Once everyone has made their decision, all cards will be revealed. The higher the count, the more complex the particular project aspect will be.
 
-### `npm run build`
+## Step 5: Come to a Consensus
+If all members reveal the same card, that number becomes the consensus – and the team can move on to the next story. If card values differ, further discussion with persuasive reasoning will be needed to determine why individual values were chosen. This process is repeated until a consensus is reached.
+</details>
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## ✨ Tecnologias
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- [x] Firebase
+- [x] Realtime Database
+- [x] Typescript
+- [x] React
+- [x] Tailwind css
+- [x] Clsx
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## ✨ Next features
 
-### `npm run eject`
+- [ ] Round history
+- [ ] Logout 
+- [ ] Toasts
+- [ ] User account
+- [ ] Improve UI/UX
+- [ ] ...
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## 🚀 Getting started
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```bash
+# config env
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+REACT_APP_API_KEY=
+REACT_APP_AUTH_DOMAIN=
+REACT_APP_PROJECT_ID=
+REACT_APP_STORAGE_BUCKET=
+REACT_APP_MESSAGING_SENDER_ID=
+REACT_APP_APP_ID=
+REACT_APP_MEASUREMENT_ID=
+REACT_APP_DATABASE_URL=
 
-## Learn More
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+# Install the dependencies
+$ yarn
+
+# Start the project
+$ yarn start
+```
+
+</br>
+
+---
+<p align="center">Made with ❤️ by Davy de Souza</p>
