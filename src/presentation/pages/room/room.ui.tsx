@@ -1,11 +1,11 @@
-import { Button, Card } from "@presentation/components";
+import { Bar, Button, Card } from "@presentation/components";
 import { IRoomUI } from "./room.types";
 import { SelectCard } from "@presentation/components/select-card/select-card.container";
-import { isEqual } from "lodash";
+import { isEqual, isNil } from "lodash";
 
 export const RoomUI: React.FC<IRoomUI> = ({
   user,
-  cards,
+  room,
   roundVotes,
   getVotingSystem,
   cardIndexSelected,
@@ -18,7 +18,7 @@ export const RoomUI: React.FC<IRoomUI> = ({
   };
 
   const handleSelectOption = (item: string, index: number) => {
-    if (cards.cardsVisible) return;
+    if (room.cardsVisible) return;
 
     handleUpdateSelection(item, index);
   };
@@ -40,16 +40,16 @@ export const RoomUI: React.FC<IRoomUI> = ({
   };
 
   const renderUsers = () => {
-    if (!cards.users || cards.users.length === 0) return null;
+    if (!room.users || room.users.length === 0) return null;
 
-    return Object.entries(cards.users).map(([key, value]) => {
+    return Object.entries(room.users).map(([key, value]) => {
       return (
         <div
           className="flex flex-col gap-4 items-center justify-center"
           key={key}
         >
           <Card
-            visible={cards.cardsVisible}
+            visible={room.cardsVisible}
             option={value.option.optionSelected}
           />
           <span className="text-lg">{value.name}</span>
@@ -58,28 +58,55 @@ export const RoomUI: React.FC<IRoomUI> = ({
     });
   };
 
-  return (
-    <div className="flex flex-col absolute top-[50%] left-[50%] [transform:translate(-50%,-50%)]">
-      {cards.cardsVisible && (
-        <div>
-          <span>{JSON.stringify(roundVotes)}</span>
-        </div>
-      )}
-      <div className="flex gap-4 flex-wrap mb-12">{renderUsers()}</div>
-      <div className="flex flex-col items-center justify-center mb-12">
-        <span className="mb-8">Choose your card 👇</span>
-        <div className="flex gap-4">{renderOptions()}</div>
+  const renderRoundVotes = () => {
+    if (!room.cardsVisible || roundVotes.length === 0) return;
+
+    const usersVoted = Object.entries(room.users).filter(
+      ([_, user]) => user.option.isSelected && user.option.optionSelected
+    );
+
+    return (
+      <div className="flex gap-4">
+        {roundVotes.map((item) => {
+          const showBanner = !isNil(item.count) && !isNil(item.voting);
+
+          if (showBanner) {
+            return (
+              <Bar
+                total={usersVoted.length}
+                label={item.voting}
+                value={item.count}
+                key={item.voting}
+              />
+            );
+          }
+
+          return null;
+        })}
       </div>
-      <div className="flex flex-col items-center justify-center">
-        {cards.cardsVisible ? (
-          <Button full onClick={handleCreateNewGame}>
-            Start again!
-          </Button>
-        ) : (
-          <Button full onClick={handleRevealCards}>
-            Reveal cards!
-          </Button>
-        )}
+    );
+  };
+
+  return (
+    <div className="flex items-center">
+      <div className="flex h-36">{renderRoundVotes()}</div>
+      <div className="flex flex-col absolute top-[50%] left-[50%] [transform:translate(-50%,-50%)]">
+        <div className="flex flex-col items-center justify-center mb-12">
+          <div className="flex gap-4 flex-wrap mb-12">{renderUsers()}</div>
+          <span className="mb-8">Choose your card 👇</span>
+          <div className="flex gap-4">{renderOptions()}</div>
+        </div>
+        <div className="flex flex-col items-center justify-center mb-4">
+          {room.cardsVisible ? (
+            <Button full onClick={handleCreateNewGame}>
+              Start again!
+            </Button>
+          ) : (
+            <Button full onClick={handleRevealCards}>
+              Reveal cards!
+            </Button>
+          )}
+        </div>
       </div>
     </div>
   );

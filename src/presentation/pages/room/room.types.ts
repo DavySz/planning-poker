@@ -28,6 +28,6 @@ export interface IRoomUI {
   getVotingSystem: () => string[];
   roundVotes: IGetRoundVotes[];
   cardIndexSelected?: number;
-  cards: IRoomModel;
+  room: IRoomModel;
   user: IUserModel;
 }
