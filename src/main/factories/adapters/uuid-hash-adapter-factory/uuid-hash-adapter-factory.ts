@@ -1,6 +1,6 @@
 import { IGetHash } from "@data/hash";
-import { UuiHashAdapter } from "@infra/hash";
+import { UuiGetHashAdapter } from "@infra/hash";
 
-export const makeUuidHashAdapter = (): IGetHash => {
-  return new UuiHashAdapter();
+export const makeUuidGetHashAdapter = (): IGetHash => {
+  return new UuiGetHashAdapter();
 };

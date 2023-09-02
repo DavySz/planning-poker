@@ -1,1 +1,1 @@
-export * from "./uuid-hash-adapter";
+export * from "./uuid";

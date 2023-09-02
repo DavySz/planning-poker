@@ -1,7 +1,7 @@
 import { IGetHash } from "@data/hash";
 import { v4 } from "uuid";
 
-export class UuiHashAdapter implements IGetHash {
+export class UuiGetHashAdapter implements IGetHash {
   get() {
     return v4();
   }

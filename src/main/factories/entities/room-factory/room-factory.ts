@@ -1,14 +1,14 @@
 import { IUserModel } from "@domain/models/user-model";
 import { IRoomModel } from "@domain/models/room-model";
-import { makeUuidHashAdapter } from "@main/factories/adapters";
 import { ICreateRoomDTO } from "@domain/dtos/create-room";
+import { makeUuidGetHashAdapter } from "@main/factories/adapters";
 
 export const makeRoom = ({
   user,
   room,
   voting,
 }: ICreateRoomDTO): IRoomModel => {
-  const roomId = makeUuidHashAdapter().get();
+  const roomId = makeUuidGetHashAdapter().get();
 
   const users: IUserModel[] = [];
 

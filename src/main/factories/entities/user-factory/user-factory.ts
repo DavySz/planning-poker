@@ -1,9 +1,9 @@
 import { ICreateUserDTO } from "@domain/dtos/create-user";
 import { IUserModel } from "@domain/models";
-import { makeUuidHashAdapter } from "@main/factories/adapters";
+import { makeUuidGetHashAdapter } from "@main/factories/adapters";
 
 export const makeUser = ({ name, owner }: ICreateUserDTO): IUserModel => {
-  const id = makeUuidHashAdapter().get();
+  const id = makeUuidGetHashAdapter().get();
 
   return {
     option: {
