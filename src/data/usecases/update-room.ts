@@ -1,4 +1,4 @@
-import { IDatabase } from "@data/protocols/database";
+import { IDatabase } from "@data/database";
 import { UpdateRoom, UpdateRoomSpace } from "@domain/usecases";
 
 export class RemoteUpdateRoom implements UpdateRoom {

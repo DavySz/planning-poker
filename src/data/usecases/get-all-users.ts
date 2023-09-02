@@ -1,4 +1,4 @@
-import { IDatabase } from "@data/protocols/database";
+import { IDatabase } from "@data/database";
 import { GetAllUsers, GetAllUsersSpace } from "@domain/usecases";
 
 export class RemoteGetAllUsers implements GetAllUsers {

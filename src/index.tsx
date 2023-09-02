@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import "@infra/protocols/firebase/firebase.config";
+import "@infra/configs/firebase-config";
 import { Routes } from "@main/routes";
 
 const root = ReactDOM.createRoot(

@@ -1,4 +1,4 @@
-import { IDatabase } from "@data/protocols/database";
+import { IDatabase } from "@data/database";
 import { IGetRoundVotes, IUserModel } from "@domain/models";
 import { GetRoundVotes, GetRoundVotesSpace } from "@domain/usecases";
 

@@ -1,4 +1,4 @@
-import { IDatabase } from "@data/protocols/database";
+import { IDatabase } from "@data/database";
 import { GetRoom, GetRoomSpace } from "@domain/usecases";
 
 export class RemoteGetRoom implements GetRoom {

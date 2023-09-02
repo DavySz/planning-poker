@@ -1,4 +1,4 @@
-import { IDatabase } from "@data/protocols/database";
+import { IDatabase } from "@data/database";
 import {
   ref,
   onValue,

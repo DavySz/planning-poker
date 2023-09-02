@@ -1,4 +1,4 @@
-import { IDatabase } from "@data/protocols/database";
+import { IDatabase } from "@data/database";
 import { CreateUser, CreateUserSpace } from "@domain/usecases/create-user";
 
 export class RemoteCreateUser implements CreateUser {

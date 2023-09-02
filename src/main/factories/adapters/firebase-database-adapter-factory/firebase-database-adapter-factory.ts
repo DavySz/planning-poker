@@ -1,5 +1,6 @@
-import { FirebaseDatabaseAdapter } from "@infra/protocols/firebase/firebase-database-adapter/firebase-database-adapter";
+import { IDatabase } from "@data/database";
+import { FirebaseDatabaseAdapter } from "@infra/database";
 
-export const makeFirebaseDatabaseAdapter = (): FirebaseDatabaseAdapter => {
+export const makeFirebaseDatabaseAdapter = (): IDatabase => {
   return new FirebaseDatabaseAdapter();
 };

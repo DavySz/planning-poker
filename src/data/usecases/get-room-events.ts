@@ -1,4 +1,4 @@
-import { IDatabase } from "@data/protocols/database";
+import { IDatabase } from "@data/database";
 import { GetRoomEvents, GetRoomEventsSpace } from "@domain/usecases";
 
 export class RemoteGetRoomEvents implements GetRoomEvents {
