@@ -1,8 +1,8 @@
 import { GetRoomEvents } from "@domain/usecases";
-import { makeFirebaseDatabaseAdapter } from "../adapters";
+import { makeFirebaseListenerAdapter } from "../adapters";
 import { RemoteGetRoomEvents } from "@data/usecases";
 
 export const makeGetRoomEvents = (): GetRoomEvents => {
-  const database = makeFirebaseDatabaseAdapter();
-  return new RemoteGetRoomEvents(database);
+  const listenerDatabase = makeFirebaseListenerAdapter();
+  return new RemoteGetRoomEvents(listenerDatabase);
 };

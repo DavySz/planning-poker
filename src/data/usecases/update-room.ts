@@ -1,10 +1,10 @@
-import { IDatabase } from "@data/database";
+import { IUpdateDatabase } from "@data/database";
 import { UpdateRoom, UpdateRoomSpace } from "@domain/usecases";
 
 export class RemoteUpdateRoom implements UpdateRoom {
-  constructor(private readonly database: IDatabase) {}
+  constructor(private readonly updateDatabase: IUpdateDatabase) {}
 
   async update({ room, roomId }: UpdateRoomSpace.Params): Promise<void> {
-    await this.database.update(room, `rooms/${roomId}`);
+    await this.updateDatabase.update(room, `rooms/${roomId}`);
   }
 }

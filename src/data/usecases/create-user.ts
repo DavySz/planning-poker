@@ -1,10 +1,10 @@
-import { IDatabase } from "@data/database";
+import { IPushDatabase } from "@data/database";
 import { CreateUser, CreateUserSpace } from "@domain/usecases/create-user";
 
 export class RemoteCreateUser implements CreateUser {
-  constructor(private readonly database: IDatabase) {}
+  constructor(private readonly pushDatabase: IPushDatabase) {}
 
   async create({ room, user }: CreateUserSpace.Params): Promise<void> {
-    await this.database.push(user, `rooms/${room}/users`);
+    await this.pushDatabase.push(user, `rooms/${room}/users`);
   }
 }

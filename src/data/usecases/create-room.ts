@@ -1,11 +1,11 @@
-import { IDatabase } from "@data/database";
+import { IPushDatabase } from "@data/database";
 import { CreateRoom, CreateRoomSpace } from "@domain/usecases";
 
 export class RemoteCreateRoom implements CreateRoom {
-  constructor(private readonly database: IDatabase) {}
+  constructor(private readonly pushDatabase: IPushDatabase) {}
 
   async create(params: CreateRoomSpace.Params): Promise<CreateRoomSpace.Model> {
-    const { key } = await this.database.push(params.room, "rooms");
+    const { key } = await this.pushDatabase.push(params.room, "rooms");
     return key;
   }
 }

@@ -1,8 +1,8 @@
 import { UpdateRoom } from "@domain/usecases";
-import { makeFirebaseDatabaseAdapter } from "../adapters";
 import { RemoteUpdateRoom } from "@data/usecases";
+import { makeFirebaseUpdateAdapter } from "../adapters";
 
 export const makeUpdateRoom = (): UpdateRoom => {
-  const database = makeFirebaseDatabaseAdapter();
-  return new RemoteUpdateRoom(database);
+  const updateDatabase = makeFirebaseUpdateAdapter();
+  return new RemoteUpdateRoom(updateDatabase);
 };

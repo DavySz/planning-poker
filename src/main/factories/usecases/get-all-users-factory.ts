@@ -1,8 +1,8 @@
 import { GetAllUsers } from "@domain/usecases";
-import { makeFirebaseDatabaseAdapter } from "../adapters";
-import {  RemoteGetAllUsers } from "@data/usecases";
+import { RemoteGetAllUsers } from "@data/usecases";
+import { makeFirebaseGetAdapter } from "../adapters";
 
 export const makeGetAllUsers = (): GetAllUsers => {
-  const database = makeFirebaseDatabaseAdapter();
-  return new RemoteGetAllUsers(database);
+  const getDatabase = makeFirebaseGetAdapter();
+  return new RemoteGetAllUsers(getDatabase);
 };

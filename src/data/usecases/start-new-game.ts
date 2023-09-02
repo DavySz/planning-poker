@@ -1,4 +1,4 @@
-import { IDatabase } from "@data/database";
+import { IGetDatabase, IUpdateDatabase } from "@data/database";
 import { IRoomModel, IUserModel } from "@domain/models";
 import {
   StartNewGame,
@@ -6,7 +6,10 @@ import {
 } from "@domain/usecases/start-new-game";
 
 export class RemoteStartNewGame implements StartNewGame {
-  constructor(private readonly database: IDatabase) {}
+  constructor(
+    private readonly updateDatabase: IUpdateDatabase,
+    private readonly getDatabase: IGetDatabase
+  ) {}
 
   async start({ room, roomId }: StartNewGameSpace.Params): Promise<void> {
     try {
@@ -17,9 +20,9 @@ export class RemoteStartNewGame implements StartNewGame {
         cardsVisible: false,
       };
 
-      await this.database.update(roomUpdated, `rooms/${roomId}`);
+      await this.updateDatabase.update(roomUpdated, `rooms/${roomId}`);
 
-      const snapshot = await this.database.get(`rooms/${roomId}/users`);
+      const snapshot = await this.getDatabase.get(`rooms/${roomId}/users`);
       const users = snapshot.val();
 
       for (const [key, item] of Object.entries(users)) {
@@ -34,7 +37,10 @@ export class RemoteStartNewGame implements StartNewGame {
           },
         };
 
-        const updateMethod = this.database.update(userUpdated, pathUpdated);
+        const updateMethod = this.updateDatabase.update(
+          userUpdated,
+          pathUpdated
+        );
 
         batchUpdates.push(updateMethod);
       }

@@ -1,8 +1,8 @@
 import { GetRoom } from "@domain/usecases";
-import { makeFirebaseDatabaseAdapter } from "../adapters";
+import { makeFirebaseGetAdapter } from "../adapters";
 import { RemoteGetRoom } from "@data/usecases";
 
 export const makeRemoteGetRoom = (): GetRoom => {
-  const database = makeFirebaseDatabaseAdapter();
-  return new RemoteGetRoom(database);
+  const getDatabase = makeFirebaseGetAdapter();
+  return new RemoteGetRoom(getDatabase);
 };

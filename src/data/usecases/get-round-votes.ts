@@ -1,14 +1,14 @@
-import { IDatabase } from "@data/database";
+import { IGetDatabase } from "@data/database";
 import { IGetRoundVotes, IUserModel } from "@domain/models";
 import { GetRoundVotes, GetRoundVotesSpace } from "@domain/usecases";
 
 export class RemoteGetRoundVotes implements GetRoundVotes {
-  constructor(private readonly database: IDatabase) {}
+  constructor(private readonly getDatabase: IGetDatabase) {}
 
   async get(room: string): Promise<GetRoundVotesSpace.Model> {
     const roundVotes: IGetRoundVotes[] = [];
 
-    const users = await this.database.get(`rooms/${room}/users`);
+    const users = await this.getDatabase.get(`rooms/${room}/users`);
 
     Object.entries(users.val()).forEach(([_, value]) => {
       const user = value as IUserModel;

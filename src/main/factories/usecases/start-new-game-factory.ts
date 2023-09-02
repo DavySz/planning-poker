@@ -1,8 +1,10 @@
 import { StartNewGame } from "@domain/usecases";
-import { makeFirebaseDatabaseAdapter } from "../adapters";
 import { RemoteStartNewGame } from "@data/usecases/start-new-game";
+import { makeFirebaseGetAdapter, makeFirebaseUpdateAdapter } from "../adapters";
 
 export const makeStartNewGame = (): StartNewGame => {
-  const database = makeFirebaseDatabaseAdapter();
-  return new RemoteStartNewGame(database);
+  const updateDatabase = makeFirebaseUpdateAdapter();
+  const getDatabase = makeFirebaseGetAdapter();
+
+  return new RemoteStartNewGame(updateDatabase, getDatabase);
 };

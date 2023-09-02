@@ -1,8 +1,8 @@
 import { CreateUser } from "@domain/usecases";
-import { makeFirebaseDatabaseAdapter } from "../adapters";
 import { RemoteCreateUser } from "@data/usecases";
+import { makeFirebasePushAdapter } from "../adapters";
 
 export const makeRemoteCreateUser = (): CreateUser => {
-  const database = makeFirebaseDatabaseAdapter();
-  return new RemoteCreateUser(database);
+  const pushDatabase = makeFirebasePushAdapter();
+  return new RemoteCreateUser(pushDatabase);
 };
