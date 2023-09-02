@@ -37,6 +37,10 @@ All agile development team members will then choose a card from their deck to re
 If all members reveal the same card, that number becomes the consensus – and the team can move on to the next story. If card values differ, further discussion with persuasive reasoning will be needed to determine why individual values were chosen. This process is repeated until a consensus is reached.
 </details>
 
+## 🏠 Project Architecture
+
+- [x] Clean Architecture
+
 ## ✨ Technologies
 
 - [x] Firebase
