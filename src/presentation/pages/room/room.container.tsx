@@ -28,8 +28,14 @@ export const Room: React.FC<IRoom> = ({
 
   const [cardIndexSelected, setCardIndexSelected] = useState<number>();
 
-  const getVotingSystem = (): RegExpMatchArray => {
-    return room.voting.match(/\b[PP|P|M|G|GG]+\b/g) as RegExpMatchArray;
+  const getVotingSystem = (): Array<string> => {
+    const hasFibonacci = /fibonacci/i.test(room.voting);
+
+    if (hasFibonacci) {
+      return ["1", "1", "2", "3", "5", "8", "13"];
+    }
+
+    return room.voting.match(/\b[PP|P|M|G|GG]+\b/g) as Array<string>;
   };
 
   const getAllRoundVotes = async (event: IRoomModel) => {
