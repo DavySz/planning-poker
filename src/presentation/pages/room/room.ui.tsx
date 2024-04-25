@@ -98,11 +98,11 @@ export const RoomUI: React.FC<IRoomUI> = ({
         </div>
         <div className="flex flex-col items-center justify-center mb-4">
           {room.cardsVisible ? (
-            <Button full onClick={handleCreateNewGame}>
+            <Button full onClick={handleCreateNewGame} disabled={!user.owner}>
               Start again!
             </Button>
           ) : (
-            <Button full onClick={handleRevealCards}>
+            <Button full onClick={handleRevealCards} disabled={!user.owner}>
               Reveal cards!
             </Button>
           )}
